@@ -95,7 +95,7 @@ const HeroSection = () => {
               <div className="w-80 h-80 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 p-1">
                 <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
                   <Image
-                    src="/web-developer-headshot.pngg"
+                    src="/web-developer-headshot.png"
                     alt="Hamza Mouttaki"
                     width={300}
                     height={300}
