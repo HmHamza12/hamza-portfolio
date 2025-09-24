@@ -5,6 +5,7 @@ export async function POST(req: Request) {
     const { name, email, message } = await req.json()
 
     if (!name || !email || !message) {
+      console.error("Champs manquants:", { name: !!name, email: !!email, message: !!message })
       return NextResponse.json({ ok: false, error: "Champs requis manquants." }, { status: 400 })
     }
 
@@ -12,6 +13,10 @@ export async function POST(req: Request) {
     const to = process.env.CONTACT_TO_EMAIL
 
     if (!apiKey || !to) {
+      console.error("Variables d'environnement manquantes:", { 
+        hasApiKey: !!apiKey, 
+        hasToEmail: !!to 
+      })
       return NextResponse.json({ ok: false, error: "Configuration email manquante." }, { status: 500 })
     }
 
@@ -82,11 +87,15 @@ export async function POST(req: Request) {
 
     if (!res.ok) {
       const errText = await res.text()
+      console.error("Erreur Resend API:", { status: res.status, error: errText })
       return NextResponse.json({ ok: false, error: errText || "Erreur d'envoi" }, { status: 502 })
     }
 
+    const result = await res.json()
+    console.log("Email envoyé avec succès:", result)
     return NextResponse.json({ ok: true })
   } catch (e: any) {
+    console.error("Erreur serveur:", e)
     return NextResponse.json({ ok: false, error: e?.message || "Erreur serveur" }, { status: 500 })
   }
 }

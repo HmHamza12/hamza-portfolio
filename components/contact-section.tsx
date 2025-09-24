@@ -28,10 +28,14 @@ const ContactSection = () => {
         body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok || !data?.ok) throw new Error(data?.error || "Erreur")
+      if (!res.ok || !data?.ok) {
+        console.error("Erreur API:", data?.error)
+        throw new Error(data?.error || "Erreur")
+      }
       setStatus("success")
       setFormData({ name: "", email: "", message: "" })
-    } catch (err) {
+    } catch (err: any) {
+      console.error("Erreur soumission:", err)
       setStatus("error")
     } finally {
       setTimeout(() => setStatus("idle"), 4000)
